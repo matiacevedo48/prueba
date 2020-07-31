@@ -1,0 +1,5 @@
+SELECT clientes.id_cliente,nombre,rut,facturas.precio_total FROM clientes INNER JOIN facturas ON clientes.id_cliente = facturas.id_cliente WHERE precio_total=(SELECT MAX(precio_total) from facturas)
+
+SELECT clientes.id_cliente,nombre,rut,facturas.precio_total FROM clientes INNER JOIN facturas ON clientes.id_cliente = facturas.id_cliente WHERE precio_total>100
+
+SELECT COUNT(id_producto) FROM items WHERE id_producto=6

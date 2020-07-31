@@ -1,0 +1,132 @@
+CREATE DATABASE prueba;
+\c prueba;					#Para cambiarse a la BD recien creada
+
+CREATE TABLE clientes(
+id_cliente SERIAL,
+nombre VARCHAR(30),
+rut VARCHAR(10),
+direccion VARCHAR(30),
+PRIMARY KEY (id_cliente)
+);
+CREATE TABLE facturas(
+nro_factura SERIAL,
+id_cliente SERIAL,
+fecha DATE,
+subtotal INT,
+iva FLOAT,
+precio_total INT,
+PRIMARY KEY (nro_factura),
+FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente)
+);
+CREATE TABLE items (
+id_producto INT,
+cantidad INT,
+total_producto INT,
+nro_factura INT,
+FOREIGN KEY (nro_factura) REFERENCES facturas (nro_factura)
+);
+
+CREATE TABLE categoria(
+id_categoria VARCHAR(8),
+nombre_categoria VARCHAR(25),
+descripcion VARCHAR(30),
+PRIMARY KEY (id_categoria)
+);
+CREATE TABLE productos(
+id_producto INT,
+id_categoria VARCHAR(8),
+nombre VARCHAR(30),
+descripcion VARCHAR(30),
+valor_unitario INT,
+PRIMARY KEY (id_producto),
+FOREIGN KEY (id_categoria) REFERENCES categoria(id_categoria)
+);
+
+INSERT INTO clientes (nombre,rut,direccion) VALUES ('Juan Ramirez','11111111-1','Victoria 432');
+INSERT INTO clientes (nombre,rut,direccion) VALUES ('Enrique Herrera','22222222-2','Monroe 777');
+INSERT INTO clientes (nombre,rut,direccion) VALUES ('Carlos Mercado','33333333-3','Apoquindo 2142');
+INSERT INTO clientes (nombre,rut,direccion) VALUES ('Alex Palacios','44444444-4','Los Leones 325');
+INSERT INTO clientes (nombre,rut,direccion) VALUES ('Carolina Paez','55555555-5','Rosario Norte 650');
+
+INSERT INTO categoria (id_categoria,nombre_categoria,descripcion) VALUES ('CATEG001','Categoria 001','Descripcion categoria 001');
+INSERT INTO categoria (id_categoria,nombre_categoria,descripcion) VALUES ('CATEG002','Categoria 002','Descripcion categoria 002');
+INSERT INTO categoria (id_categoria,nombre_categoria,descripcion) VALUES ('CATEG003','Categoria 003','Descripcion categoria 003');
+
+INSERT INTO productos (id_producto,nombre,descripcion,valor_unitario,id_categoria) VALUES (1,'Leche Entera','Leche Colun 1 Lt',700,'CATEG001');
+INSERT INTO productos (id_producto,nombre,descripcion,valor_unitario,id_categoria) VALUES (2,'Lentejas','Lentejas Wasil 5mm',2500,'CATEG001');
+INSERT INTO productos (id_producto,nombre,descripcion,valor_unitario,id_categoria) VALUES (3,'Porotos','Poroto Tortola 1Kg',50,'CATEG002');
+INSERT INTO productos (id_producto,nombre,descripcion,valor_unitario,id_categoria) VALUES (4,'Coca Cola','Coca Cola Normal 2Lt',1600,'CATEG002');
+INSERT INTO productos (id_producto,nombre,descripcion,valor_unitario,id_categoria) VALUES (5,'Jugo de Naranja','Jugo de Naranja 1Lt',80,'CATEG003');
+INSERT INTO productos (id_producto,nombre,descripcion,valor_unitario,id_categoria) VALUES (6,'Harina','Harina Mont Blanc',1100,'CATEG003');
+INSERT INTO productos (id_producto,nombre,descripcion,valor_unitario,id_categoria) VALUES (7,'Cafe','Cafe Monterrey 170gr',2200,'CATEG002');
+INSERT INTO productos (id_producto,nombre,descripcion,valor_unitario,id_categoria) VALUES (8,'Azucar','Azucar Iansa 1Kg',1250,'CATEG003');
+
+INSERT INTO facturas (fecha,subtotal,iva,precio_total,id_cliente) VALUES ('10-01-2020',750,142.5,893,1);
+INSERT INTO facturas (fecha,subtotal,iva,precio_total,id_cliente) VALUES ('15-02-2020',3880,737.2,4617,1);
+INSERT INTO facturas (fecha,subtotal,iva,precio_total,id_cliente) VALUES ('25-03-2020',3880,737.2,4617,2);
+INSERT INTO facturas (fecha,subtotal,iva,precio_total,id_cliente) VALUES ('22-04-2020',3450,655.5,4106,2);
+INSERT INTO facturas (fecha,subtotal,iva,precio_total,id_cliente) VALUES ('13-05-2020',3250,617.5,3868,2);
+INSERT INTO facturas (fecha,subtotal,iva,precio_total,id_cliente) VALUES ('20-05-2020',700,133,833,3);
+INSERT INTO facturas (fecha,subtotal,iva,precio_total,id_cliente) VALUES ('10-06-2020',3300,627,3927,4);
+INSERT INTO facturas (fecha,subtotal,iva,precio_total,id_cliente) VALUES ('18-06-2020',1730,328.7,2059,4);
+INSERT INTO facturas (fecha,subtotal,iva,precio_total,id_cliente) VALUES ('11-07-2020',4850,921.5,5772,4);
+INSERT INTO facturas (fecha,subtotal,iva,precio_total,id_cliente) VALUES ('16-07-2020',1250,237.5,1488,4);
+INSERT INTO items (id_producto,cantidad,total_producto,nro_factura) VALUES (1,1,700,1);
+INSERT INTO items (id_producto,cantidad,total_producto,nro_factura) VALUES (3,1,50,1);
+INSERT INTO items (id_producto,cantidad,total_producto,nro_factura) VALUES (2,1,2500,2);
+INSERT INTO items (id_producto,cantidad,total_producto,nro_factura) VALUES (5,1,80,2);
+INSERT INTO items (id_producto,cantidad,total_producto,nro_factura) VALUES (6,1,1300,2);
+INSERT INTO items (id_producto,cantidad,total_producto,nro_factura) VALUES (2,1,2500,3);
+INSERT INTO items (id_producto,cantidad,total_producto,nro_factura) VALUES (5,1,80,3);
+INSERT INTO items (id_producto,cantidad,total_producto,nro_factura) VALUES (6,1,1300,3);
+INSERT INTO items (id_producto,cantidad,total_producto,nro_factura) VALUES (7,1,2200,4);
+INSERT INTO items (id_producto,cantidad,total_producto,nro_factura) VALUES (8,1,1250,4);
+INSERT INTO items (id_producto,cantidad,total_producto,nro_factura) VALUES (1,1,700,5);
+INSERT INTO items (id_producto,cantidad,total_producto,nro_factura) VALUES (2,1,2500,5);
+INSERT INTO items (id_producto,cantidad,total_producto,nro_factura) VALUES (3,1,50,5);
+INSERT INTO items (id_producto,cantidad,total_producto,nro_factura) VALUES (1,1,700,6);
+INSERT INTO items (id_producto,cantidad,total_producto,nro_factura) VALUES (6,1,1100,7);
+INSERT INTO items (id_producto,cantidad,total_producto,nro_factura) VALUES (7,1,2200,7);
+INSERT INTO items (id_producto,cantidad,total_producto,nro_factura) VALUES (3,1,50,8);
+INSERT INTO items (id_producto,cantidad,total_producto,nro_factura) VALUES (4,1,1600,8);
+INSERT INTO items (id_producto,cantidad,total_producto,nro_factura) VALUES (5,1,80,8);
+INSERT INTO items (id_producto,cantidad,total_producto,nro_factura) VALUES (1,1,700,9);
+INSERT INTO items (id_producto,cantidad,total_producto,nro_factura) VALUES (2,1,2500,9);
+INSERT INTO items (id_producto,cantidad,total_producto,nro_factura) VALUES (3,1,50,9);
+INSERT INTO items (id_producto,cantidad,total_producto,nro_factura) VALUES (4,1,1600,9);
+INSERT INTO items (id_producto,cantidad,total_producto,nro_factura) VALUES (8,1,1250,10);
+
+CONSULTAS: 
+
+Pregunta 1:
+
+SELECT clientes.id_cliente,nombre,rut,facturas.precio_total FROM clientes INNER JOIN facturas ON clientes.id_cliente = facturas.id_cliente WHERE precio_total=(SELECT MAX(precio_total) from facturas);
+ id_cliente |    nombre     |    rut     | precio_total
+------------+---------------+------------+--------------
+          4 | Alex Palacios | 44444444-4 |         5772
+(1 fila)
+
+Pregunta 2:
+
+SELECT clientes.id_cliente,nombre,rut,facturas.precio_total FROM clientes INNER JOIN facturas ON clientes.id_cliente = facturas.id_cliente WHERE precio_total>100;
+ id_cliente |     nombre      |    rut     | precio_total
+------------+-----------------+------------+--------------
+          1 | Juan Ramirez    | 11111111-1 |          893
+          1 | Juan Ramirez    | 11111111-1 |         4617
+          2 | Enrique Herrera | 22222222-2 |         4617
+          2 | Enrique Herrera | 22222222-2 |         4106
+          2 | Enrique Herrera | 22222222-2 |         3868
+          3 | Carlos Mercado  | 33333333-3 |          833
+          4 | Alex Palacios   | 44444444-4 |         3927
+          4 | Alex Palacios   | 44444444-4 |         2059
+          4 | Alex Palacios   | 44444444-4 |         5772
+          4 | Alex Palacios   | 44444444-4 |         1488
+(10 filas)
+
+Pregunta 3:
+
+SELECT COUNT(id_producto) FROM items WHERE id_producto=6;
+ count
+-------
+     3
+(1 fila)
